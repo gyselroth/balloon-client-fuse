@@ -1,0 +1,34 @@
+{
+    "package": {
+        "name": "tubectl",
+        "repo": "tubee",
+        "subject": "gyselroth",
+        "desc": "tubee console client",
+        "website_url": "https://github.com/gyselroth/tubee-client-cli",
+        "issue_tracker_url": "https://github.com/gyselroth/tubee-client-cli/issues",
+        "vcs_url": "https://github.com/gyselroth/tubee-client-cli.git",
+        "github_use_tag_release_notes": true,
+        "github_release_notes_file": "CHANGELOG.md",
+        "licenses": ["GPL-3.0"],
+        "labels": ["tubee","client", "cli"],
+        "public_download_numbers": true,
+        "public_stats": true
+    },
+
+    "version": {
+        "name": "{version}",
+        "released": "{date}",
+        "gpgSign": true
+    },
+
+    "files": [
+        {"includePattern": "dist/(.*\.deb)", "uploadPattern": "$1",
+        "matrixParams": {
+            "deb_distribution": "{deb_distribution}",
+            "deb_component": "main",
+            "deb_architecture": "all",
+            "override": 1}
+        }
+    ],
+    "publish": true
+}

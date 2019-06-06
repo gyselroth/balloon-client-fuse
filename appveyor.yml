@@ -1,0 +1,36 @@
+environment:
+  matrix:
+    - nodejs_version: '8'
+version: "{build}"
+build: off
+matrix:
+  fast_finish: true
+install:
+  - ps: $env:channel = "unstable"
+  - ps: Install-Product node $env:nodejs_version x64
+  - npm set progress=false
+  - npm prune
+  - npm install
+  - npm run build
+  - npm run dist-windows
+  - ps: $version = $env:APPVEYOR_REPO_TAG_NAME.substring(1)
+  - ps: choco pack tubectl.nuspec --version=$version
+  - ps: mv tubectl*.nupkg dist
+test_script:
+  - node --version
+  - npm --version
+  - SET PATH=C:\Program Files\Nodejs;%PATH%
+artifacts:
+  - path: dist\tubectl-win-x64.exe
+    name: tubectl
+  - path: dist\tubectl.$version.nupkg
+    name: tubectl-choco
+deploy:
+  provider: GitHub
+  auth_token:
+    secure: jCxEiL6iLQGMyFkFptVvRACVSMy4HC9RzzLPzl1FCQsj9JNZObW+vnhYuP0tnfPy
+  artifact: tubectl,tubectl-choco
+  draft: false
+  force_update: false
+  on:
+    appveyor_repo_tag: true

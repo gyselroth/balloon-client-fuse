@@ -1,0 +1,63 @@
+sudo: required
+language: node_js
+cache:
+  directories:
+  - homebrew-core
+node_js:
+  - 8
+before_script:
+  - npm update
+  - export version=$TRAVIS_TAG
+  - if [[ "${version:0:1}" == "v" ]]; then version=${version:1}; fi;
+  - if [ "$version" == "" ]; then version=$TRAVIS_BUILD_NUMBER; fi;
+script:
+  - npm run build
+  - npm run dist-$TRAVIS_OS_NAME
+os:
+  - linux
+  - osx
+addons:
+  apt:
+    packages:
+    - python
+    - libsecret-1-0
+    - libsecret-1-dev
+    - libgnome-keyring-dev
+python:
+  - "2.7"
+before_deploy:
+- if [ "$TRAVIS_OS_NAME" == "linux" ]; then if [[ "$TRAVIS_TAG" == *"-"* ]]; then export deb_distribution=unstable;
+  else export deb_distribution=stable; fi; if [[ "$TRAVIS_BRANCH" == "master" ]];
+  then export deb_distribution=nightly; fi; export date=$(date +%Y-%m-%d); cp packaging/debian/bintray.json
+  bintray.json; sed -i s/'{version}'/$version/g bintray.json; sed -i s/'{date}'/$date/g
+  bintray.json; sed -i s/'{deb_distribution}'/$deb_distribution/g bintray.json; make deb VERSION=$version; fi;
+deploy:
+- provider: releases
+  api_key:
+    secure: "oZxGnA6WBinJvWLt2Vd5AvLSeNSQu69eNgh143rmp2tmWyjXbgnoJhk3QvQTpMlTTMbyKa80uRe/dnabW3cFt1t8SY+XEPyBpbHWUn/fAIOTzXnteTKXzaxgP7HaauBl1wq3S0kgK4VKIUfm+5/R9au2BLvx4Vgg71MW6DUhRYadAwCggSyHRfkdIZ43ZerGGjkQWBXV4IejTCTBRR2atsEzH5wwlYfik5Jr8NficlrzHOeG14GGs3K5kDgWutQ5sj2ZCnCcBOpRdPy7KAWZUPxR2GUqhfsbdyh9mVkHipxPLO2lSDrO8t1GTziqeSQLAr8WhtDksu664YMG2lp3w6AESmMVK0WsHVRwvyrf2uuS1zQfiWB4UbKjfj7fjhBDKrBAsnofxEGH0/HaQDH+N5sNsbM+WymOv3bOaxK2hoqjGkM55PO3fUi6d25OL+GHAaY2lxgSY99NwkCoQmyx5Aw2B8rzTr7IRelCCyCH0HkJ7FZWq1uc5VsMJsxvbOLQa12QgPh27TC5IORxXWvcNkyQfcXrIE9kKJbmfPdY9Aq2Gf7jCi4oeG3dliWyGc3SegYUF6MWouhkK/Ve7rnzPdyN6ozBmH6GM7gSVSin6LBKkG4Wqe2gNc9/W/Tqk5gDL+yqi8wEt5byBKy9mXfLP/Cr9MZZUu83VPgSH7BNskg="
+  file_glob: true
+  file: dist/*
+  skip_cleanup: true
+  on:
+    tags: true
+- provider: bintray
+  file: bintray.json
+  user: raffis
+  skip_cleanup: true
+  key:
+    secure: "Viph5bQg16WFN7db/xt/e3BaUwhxYt6q5jtUeZOBYSCGclmBjYUH2faGayZLsoeEy7ZauVC8eekgQ8uytyyWj9289jL6tRXWpM6XzVkXvr1TwBf0khhn9R6uwzslNVtAwfk4/RhielB0WkII56FF/NrC2KY1mpysHUszDymjG1C0ipS1qKmJqqvEUifeQ1cq/CPXuy7TRIvsn3Qnpde00uUudwlHsYqB50VyJviMMTr2QbxkcODSGrCu53Y0rlUs0DlroEgC3P7E2u8neG+tIP7FXlDSWrRXOt1RzEbckOG9GkJkQAmo2BxXrPxeFMxGBhJA2rUgBc9Fn/EBAxQ1TVJK4cDtOQzEkB17an8jGikQSWQNfUo5XUI/h3Ynv0hSgUeoc/+r2S7/JZTOnjQXSEU6KkJeUJ6UnHVqsvQ/AjMc/IGxh5bS+ZDZQrpGZfja+whZAeTd1uecvWLm75R8kLTMW6dEPcGQyIyv72Y21SOtadCdaHygckyeA8sLBGkrf3/BIBQf2FGaMv0cZJQv5Kf9dwKX6Qjp0KP6nvJ/wKngr+hcM+y6oER/iygP75MUpVLAi8vh1W+gql23n5c6kQENrg2KsJ5jrd6zsnn3V6xCr6dY+OxLa/gt1DI9EDnfJAOjciJDWE4FaNvOiuLYB6DyiWGMPMLep1FKEIi3mj8="
+  on:
+    condition: $TRAVIS_OS_NAME = "linux"
+    tags: true
+after_deploy:
+- git config --global user.email "travis@travis-ci.org"
+- git config --global user.name "Travis CI"
+- test "$TRAVIS_TAG" != "" && test "$TRAVIS_OS_NAME" == "osx" && sha256=$(shasum -a 256 dist/tubectl-osx-x64 | cut -d ' ' -f1) && echo $sha256
+- test "$TRAVIS_TAG" != "" && test "$TRAVIS_OS_NAME" == "osx" && git clone https://github.com/gyselroth/homebrew-core
+- test "$TRAVIS_TAG" != "" && test "$TRAVIS_OS_NAME" == "osx" && sed -i '' 's/sha256.*$/sha256 "'$sha256'"/g' homebrew-core/Formula/tubectl.rb
+- test "$TRAVIS_TAG" != "" && test "$TRAVIS_OS_NAME" == "osx" && sed -i '' 's/version.*$/version "'$version'"/g' homebrew-core/Formula/tubectl.rb
+- test "$TRAVIS_TAG" != "" && test "$TRAVIS_OS_NAME" == "osx" && sed -i '' 's/url.*$/url "https:\/\/github.com\/gyselroth\/tubee-client-cli\/releases\/download\/v'$version'\/tubectl-osx-x64"/g' homebrew-core/Formula/tubectl.rb
+- test "$TRAVIS_TAG" != "" && test "$TRAVIS_OS_NAME" == "osx" && cd homebrew-core
+- test "$TRAVIS_TAG" != "" && test "$TRAVIS_OS_NAME" == "osx" && git commit --message "tubectl release $version" Formula/tubectl.rb
+- test "$TRAVIS_TAG" != "" && test "$TRAVIS_OS_NAME" == "osx" && git remote set-url --push origin https://raffis:${GITHUB_TOKEN}@github.com/gyselroth/homebrew-core.git > /dev/null 2>&1
+- test "$TRAVIS_TAG" != "" && test "$TRAVIS_OS_NAME" == "osx" && git push origin master --quiet
