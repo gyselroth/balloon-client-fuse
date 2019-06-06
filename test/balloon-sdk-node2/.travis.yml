@@ -1,0 +1,32 @@
+lang: java
+before_install: 
+script:
+- git clone https://github.com/swagger-api/swagger-codegen.git
+- cd swagger-codegen
+- mvn clean install
+- cd ..
+- wget https://raw.githubusercontent.com/gyselroth/balloon/dev/src/lib/Rest/v1/swagger.yml
+- java -jar swagger-codegen/modules/swagger-codegen-cli/target/swagger-codegen-cli.jar
+  generate -i swagger.yml -l typescript-node --http-user-agent "balloon typescript-node
+  sdk" -t src -o src --reserved-words-mappings=import=import,class=class -D modelPropertyNaming=original
+- npm install
+- npm run build
+after_success:
+- git config --global user.email "travis@travis-ci.org"
+- git config --global user.name "Travis CI"
+- git add src/*.ts; git add src/*.yml
+- git commit --message "Travis build: $TRAVIS_BUILD_NUMBER"
+- git remote add origin-pages https://${GH_TOKEN}@github.com/gyselroth/balloon-sdk-typescript-node.git
+  > /dev/null 2>&1
+- git push --quiet --set-upstream master master
+env:
+  global: 
+secure: hZJlqgOzA2zIUJSWIka0PylqNaTkfHq+kS48RrHmocrK0vLyCW7ECWrzez2f2RVdTNzPi0b+yJq2uCbFfWjImZqg+XY1I75/CVVdSYMk7PJkYZ/iBDixMYY8CAkRRd5yZft9uZAdZzR4KLCPN18n7qfISv/M9VA8989NKcVyiEU=
+deploy:
+  provider: npm
+  email: sahli@gyselroth.com
+  api_key:
+    secure: oi9/8f6B0aEjPBP52PY6cNaRbeaRJRjXo3fpJiR4hX1cjF27OAzVPgH2PtqE27sw7NXsyiEN/I07srJDPvkQclYI/Q9WSjzUEZ+8a8SvDJEO0rjU0VvpSr7dgi2TheqOKOFsiGN+yo2+hn93j/XuUTZjvnTmDMmELyYfxzOoZ1SYRbTMTKQRt87TyyYGcJM4Q7Sl0RinX0a3WRGnEaAAUOYWP6GDpi2KcDEuIqP/wc8KLpmvDnl5YuPigg0rjqDZI2ZH1LhSBNel8WvOVTi8mgxMUAz6HJ338tfhtBmFkJ8tJcVP8ERzmYOgGldJJrePB0yWOj2eHBEePb20VpLt1oyHkrQ/Wh16hE28o4gfL8TExM2fswvrIv6r1DPWUQNSW+RIMaZWhq32FJs1BzQC3FHiu+fFehl1AHEVlfhHZoLH5HXyesgOqHMpnPRDQHz/7X4w92eVuZWioXWB5tgiY+VrFuA7viQIjJrLrTM4HThACRGniR5QDtLi8erUDJ8fzzzIM60r4bC/u6N4Dwnb5QqAPnLmLAAZLS0JrUlnEVAb5We4bOTm5ZRImskM4sEEOLOo21F3t8fmMvniaAhzObwrUW0BswjUpU/PVkEmae4WDHEKSgKSPikBpZ23z7gL3uMUs748DZJp4JLN6iWJPkn4eIUADf2kKPPAE/FfEhE=
+  on:
+    tags: true
+    repo: gyselroth/balloon-sdk-typescript-node

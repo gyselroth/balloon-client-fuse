@@ -1,0 +1,58 @@
+{
+  "name": "@gyselroth/balloon-sdk-node",
+  "version": "0.0.1",
+  "description": "The official balloon sdk for node with typescript support",
+  "main": "build/api.js",
+  "scripts": {
+    "prebuild": "tsc",
+    "start": "tsc && nodejs build/main.js",
+    "build": "tsc && jest --coverage",
+    "test": "jest --coverage",
+    "coveralls": "coveralls < coverage/lcov.info"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gyselroth/balloon-sdk-typescript-node.git"
+  },
+  "keywords": [
+    "tubee",
+    "node",
+    "sdk"
+  ],
+  "author": "Raffael Sahli <sahli@gyselroth.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gyselroth/tubee-sdk-typescript-node/issues"
+  },
+  "dependencies": {
+    "@types/bluebird": "*",
+    "@types/request": "*",
+    "bluebird": "^3.5.2",
+    "http": "0.0.0",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "@types/node": "^8.0.0",
+    "typescript": "^2.9.2",
+    "jest": "^23.0.1",
+    "ts-jest": "^22.4.6",
+    "coveralls": "^3.0.1"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/swagger-codegen/"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json"
+    ]
+  }
+}

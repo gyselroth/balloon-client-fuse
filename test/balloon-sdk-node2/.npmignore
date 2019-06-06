@@ -1,0 +1,5 @@
+src
+coverage
+swagger-codegen
+tests
+tsconfig.json
