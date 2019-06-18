@@ -1,4 +1,4 @@
-# tubeectl
+# mount.balloon
 
 [![Build Status](https://travis-ci.org/gyselroth/balloon-client-fuse.svg)](https://travis-ci.org/gyselroth/balloon-client-fuse)
 [![Build status](https://ci.appveyor.com/api/projects/status/x4c9wuvilbvgc6yw?svg=true)](https://ci.appveyor.com/project/raffis/balloon-client-fuse)
