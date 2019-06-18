@@ -26,14 +26,12 @@ interface Args {
 
 switch (process.platform) {
   case 'win32':
-    var fuseFromBin =
-      'node_modules/@gyselroth/balloon-node-fuse/node_modules/fuse-bindings/build/Release/fuse_bindings.node';
+    var fuseFromBin = 'fuse-bindings/build/Release/fuse_bindings.node';
     break;
 
   case 'linux':
   default:
-    var fuseFromBin =
-      'node_modules/@gyselroth/balloon-node-fuse/node_modules/fuse-bindings/prebuilds/linux-x64/node-57.node';
+    var fuseFromBin = 'fuse-bindings/prebuilds/linux-x64/node-57.node';
 }
 
 nodeFs.mkdirSync(path.dirname(fuseLocal), '0755', true);
@@ -43,11 +41,11 @@ import { mount } from '@gyselroth/balloon-node-fuse';
 function parseOptions(opts: Options): AvailableOptions {
   var options = {} as AvailableOptions;
 
-  for(let opt of opts.options) {
-    for(let sub of opt.split(',')) {
+  for (let opt of opts.options) {
+    for (let sub of opt.split(',')) {
       var pair = sub.split('=');
-      if(pair.length === 2) {
-        options[pair[0]] = pair[1]
+      if (pair.length === 2) {
+        options[pair[0]] = pair[1];
       } else {
         options[pair[0]] = true;
       }
@@ -74,13 +72,13 @@ let root = commandpost
       mountPoint: args.mountPoint,
       on: function(event) {
         console.log(event);
-      }
+      },
     };
 
     mount(client, config).catch(error => {
       console.log(client);
     });
-});
+  });
 
 commandpost.exec(root, process.argv).catch(err => {
   if (err instanceof Error) {

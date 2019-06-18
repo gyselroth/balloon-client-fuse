@@ -4,7 +4,7 @@ const replace = require('replace-in-file');
 const promisify = require('util').promisify;
 const copyFile = promisify(fs.copyFile);
 const replaceOptions = {
-  files: "node_modules/@gyselroth/balloon-node-fuse/node_modules/fuse-bindings/index.js",
+  files: "node_modules/fuse-bindings/index.js",
   from: "var fuse = require('node-gyp-build')(__dirname)",
   to: "var fuse = require(require('path').join(require('os').homedir(), '.mount.balloon', 'fuse_bindings.node'))",
 };
@@ -23,7 +23,7 @@ const replaceOptions = {
       compileOptions.target = 'windows-x64-8.15.0';
       compileOptions.output = 'dist/mount.balloon-win-x64';
       compileOptions.resources = [
-        'node_modules/@gyselroth/balloon-node-fuse/node_modules/fuse-bindings/build/Release/fuse_bindings.node'
+        'node_modules/fuse-bindings/build/Release/fuse_bindings.node'
       ];
     break;
 
@@ -35,7 +35,7 @@ const replaceOptions = {
       compileOptions.target = 'linux-x64-8.15.0';
       compileOptions.output = 'dist/mount.balloon-linux-x64';
       compileOptions.resources = [
-        'node_modules/@gyselroth/balloon-node-fuse/node_modules/fuse-bindings/prebuilds/linux-x64/node-57.node'
+        'node_modules/fuse-bindings/prebuilds/linux-x64/node-57.node'
       ];
   }
 
