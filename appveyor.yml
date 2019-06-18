@@ -14,22 +14,22 @@ install:
   - npm run build
   - npm run dist-windows
   - ps: $version = $env:APPVEYOR_REPO_TAG_NAME.substring(1)
-  - ps: choco pack tubectl.nuspec --version=$version
-  - ps: mv tubectl*.nupkg dist
+  - ps: choco pack mount.balloon.nuspec --version=$version
+  - ps: mv mount.balloon*.nupkg dist
 test_script:
   - node --version
   - npm --version
   - SET PATH=C:\Program Files\Nodejs;%PATH%
 artifacts:
-  - path: dist\tubectl-win-x64.exe
-    name: tubectl
-  - path: dist\tubectl.$version.nupkg
-    name: tubectl-choco
+  - path: dist\mount.balloon-win-x64.exe
+    name: mount.balloon
+  - path: dist\mount.balloon.$version.nupkg
+    name: mount.balloon-choco
 deploy:
   provider: GitHub
   auth_token:
     secure: jCxEiL6iLQGMyFkFptVvRACVSMy4HC9RzzLPzl1FCQsj9JNZObW+vnhYuP0tnfPy
-  artifact: tubectl,tubectl-choco
+  artifact: mount.balloon,mount.balloon-choco
   draft: false
   force_update: false
   on:

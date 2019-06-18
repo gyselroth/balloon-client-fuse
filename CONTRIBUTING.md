@@ -1,10 +1,10 @@
-# Contribute to tubee-client-cli
+# Contribute to balloon-client-fuse
 Did you find a bug or would you like to contribute a feature? You are certainly welcome to do so.
-Please always fill an [issue](https://github.com/gyselroth/tubee-client-cli/issues/new) first to discuss the matter.
+Please always fill an [issue](https://github.com/gyselroth/balloon-client-fuse/issues/new) first to discuss the matter.
 Do not start development without an open issue otherwise we do not know what you are working on. 
 
 ## Bug
-If you just want to fill a bug report, please open your [issue](https://github.com/gyselroth/tubee-client-cli/issues/new).
+If you just want to fill a bug report, please open your [issue](https://github.com/gyselroth/balloon-client-fuse/issues/new).
 We are encouraged to fix your bug to provide best software in the opensource community.
 
 ## Security flaw
@@ -18,7 +18,7 @@ Requirements:
 
 ### Get the base
 ```
-git clone https://github.com/gyselroth/tubee-client-cli.git
+git clone https://github.com/gyselroth/balloon-client-fuse.git
 ```
 
 ### Install dependencies & build
@@ -33,13 +33,13 @@ Please make sure that you always specify the number of your issue starting with 
 ## Pull Request
 You are absolutely welcome to submit a pull request which references an open issue. Please make sure you're follwing coding standards 
 and be sure all your modifications pass the build.
-[![Build Status](https://travis-ci.org/gyselroth/tubee-client-cli.svg)](https://travis-ci.org/gyselroth/tubee-client-cli)
+[![Build Status](https://travis-ci.org/gyselroth/balloon-client-fuse.svg)](https://travis-ci.org/gyselroth/balloon-client-fuse)
 
 ## Code of Conduct
-Please note that this project is released with a [Contributor Code of Conduct](https://github.com/gyselroth/tubee-client-cli/blob/master/CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
+Please note that this project is released with a [Contributor Code of Conduct](https://github.com/gyselroth/balloon-client-fuse/blob/master/CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
 
 ## License
-This software is freely available under the terms of [MIT](https://github.com/gyselroth/tubee-client-cli/blob/master/LICENSE), please respect this license
+This software is freely available under the terms of [MIT](https://github.com/gyselroth/balloon-client-fuse/blob/master/LICENSE), please respect this license
 and do not contribute software parts which are not compatible with MIT.
 
 ## Editor config

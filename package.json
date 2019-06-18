@@ -10,9 +10,7 @@
     "build": "npm run format && npm run prebuild",
     "test": "jest --coverage",
     "coveralls": "coveralls < coverage/lcov.info",
-    "dist-linux": "nexe --verbose  -i build/main.js -o dist/mount.balloon-linux-x64 -t linux-x64-8.15.0",
-    "dist-windows": "nexe --verbose -i build/main.js -o dist/mount.balloon-win-x64 -t windows-x64-8.15.0",
-    "dist-osx": "nexe --verbose -i build/main.js -o dist/mount.balloon-osx-x64 -t mac-x64-8.15.0"
+    "dist": "npm run build && node build.js"
   },
   "repository": {
     "type": "git",
@@ -32,14 +30,16 @@
   "homepage": "https://github.com/gyselroth/balloon-client-fuse#readme",
   "dependencies": {
     "@types/request": "^2.48.1",
-    "commandpost": "^1.4.0"
+    "commandpost": "^1.4.0",
+    "node-fs": "^0.1.7",
+    "replace-in-file": "^4.1.0"
   },
   "devDependencies": {
     "@types/jest": "^22.2.3",
     "@types/node": "^10.14.7",
     "coveralls": "^3.0.3",
     "jest": "^23.6.0",
-    "nexe": "3.0.0-beta.15",
+    "nexe": "^3.2.1",
     "prettier": "^1.17.1",
     "source-map-support": "^0.5.12",
     "ts-jest": "^22.4.6",
