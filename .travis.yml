@@ -6,7 +6,7 @@ cache:
 node_js:
   - 8
 before_script:
-  - test "$TRAVIS_OS_NAME" == "windows" && choco install -y dokany
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then choco install -y dokany; fi
   - npm update
   - export version=$TRAVIS_TAG
   - if [[ "${version:0:1}" == "v" ]]; then version=${version:1}; fi;
