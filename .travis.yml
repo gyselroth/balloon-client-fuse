@@ -16,6 +16,8 @@ os:
   - linux
   - windows
 addons:
+  choco:
+    - dokany
   apt:
     packages:
     - python
