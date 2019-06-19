@@ -9,7 +9,7 @@ install:
   - ps: $env:channel = "unstable"
   - ps: Install-Product node $env:nodejs_version x64
   - npm set progress=false
-  - choco install -y dokany --installargs INSTALLDEVFILES=1;
+  - choco install -y -i dokany --installargs INSTALLDEVFILES=1;
   - npm install
   - npm run dist
   - ps: $version = $env:APPVEYOR_REPO_TAG_NAME.substring(1)
