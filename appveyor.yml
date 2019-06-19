@@ -9,10 +9,9 @@ install:
   - ps: $env:channel = "unstable"
   - ps: Install-Product node $env:nodejs_version x64
   - npm set progress=false
-  - npm prune
+  - choco install -y dokany --installargs INSTALLDEVFILES=1;
   - npm install
-  - npm run build
-  - npm run dist-windows
+  - npm run dist
   - ps: $version = $env:APPVEYOR_REPO_TAG_NAME.substring(1)
   - ps: choco pack mount.balloon.nuspec --version=$version
   - ps: mv mount.balloon*.nupkg dist
