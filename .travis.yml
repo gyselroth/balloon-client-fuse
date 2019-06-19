@@ -6,7 +6,7 @@ cache:
 node_js:
   - 8
 before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then choco install --install-arguments="'/l*v c:\dokany_msi_install.log'" -y dokany; fi
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then choco install --install-arguments="'/l*v c:\dokany_msi_install.log INSTALLDEVFILES=1'" -y dokany; fi
   - npm install
   - export version=$TRAVIS_TAG
   - if [[ "${version:0:1}" == "v" ]]; then version=${version:1}; fi;
