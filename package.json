@@ -1,6 +1,6 @@
 {
   "name": "balloon-client-fuse",
-  "description": "mount.balloon (FUSE) for Linux, Windows and OS X",
+  "description": "balloonfs (FUSE) for Linux, Windows and OS X",
   "main": "main.js",
   "scripts": {
     "prebuild": "tsc",

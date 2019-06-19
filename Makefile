@@ -13,13 +13,13 @@ VERSION := "0.0.1"
 endif
 
 # PACKAGES
-DEB = $(DIST_DIR)/tubectl-$(VERSION).deb
+DEB = $(DIST_DIR)/balloonfs-$(VERSION).deb
 
 # NPM STUFF
 NPM_BIN = npm
 
 # TARGET ALIASES
-INSTALL_TARGET = "$(INSTALL_PREFIX)/tubectl"
+INSTALL_TARGET = "$(INSTALL_PREFIX)/balloonfs"
 NPM_TARGET = $(NODE_MODULES_DIR)
 CHANGELOG_TARGET = $(PACK_DIR)/DEBIAN/changelog
 BUILD_TARGET = $(BUILD_DIR) $(NPM_TARGET)
@@ -53,15 +53,15 @@ dist: deb
 
 
 .PHONY: deb
-deb: $(DIST_DIR)/tubectl-$(VERSION).deb
+deb: $(DIST_DIR)/balloonfs-$(VERSION).deb
 
-$(DIST_DIR)/tubectl-$(VERSION).deb: $(CHANGELOG_TARGET) $(BUILD_TARGET)
+$(DIST_DIR)/balloonfs-$(VERSION).deb: $(CHANGELOG_TARGET) $(BUILD_TARGET)
 	@-test ! -d $(PACK_DIR) || rm -rfv $(PACK_DIR)
 	@mkdir -p $(PACK_DIR)/DEBIAN
 	@cp $(BASE_DIR)/packaging/debian/control $(PACK_DIR)/DEBIAN/control
 	@sed -i s/'{version}'/$(VERSION)/g $(PACK_DIR)/DEBIAN/control
 	@mkdir -p $(PACK_DIR)/$(INSTALL_PREFIX)
-	@cp  $(DIST_DIR)/tubectl-linux-x64 $(PACK_DIR)/$(INSTALL_PREFIX)/tubectl
+	@cp  $(DIST_DIR)/balloonfs-linux-x64 $(PACK_DIR)/$(INSTALL_PREFIX)/mount.balloon
 	@-test -d $(DIST_DIR) || mkdir $(DIST_DIR)
 	@dpkg-deb --build $(PACK_DIR) $@
 	@rm -rf $(PACK_DIR)
@@ -85,7 +85,7 @@ $(CHANGELOG_TARGET): CHANGELOG.md
 		then \
 	 		if [ "$$v" != "" ]; \
 	 		then \
-	 			echo "tubectl ($$v) $$stable; urgency=low" >> $@; \
+	 			echo "balloonfs ($$v) $$stable; urgency=low" >> $@; \
 	 			echo -e "$$changes" >> $@; \
 	 			echo >>  $@; \
 	 			echo " -- $$author  $$date" >> $@; \
@@ -153,5 +153,5 @@ $(BUILD_TARGET) : $(BASE_DIR)/build
 install: $(INSTALL_TARGET)
 
 $(INSTALL_TARGET): $(BUILD_TARGET)
-	@cp -Rp $(DIST_DIR)/tubectl-linux-x64 $(INSTALL_PREFIX)/tubectl
-	@chmod +x $(INSTALL_PREFIX)/tubectl
+	@cp -Rp $(DIST_DIR)/balloonfs-linux-x64 $(INSTALL_PREFIX)/mount.balloon
+	@chmod +x $(INSTALL_PREFIX)/balloonfs
