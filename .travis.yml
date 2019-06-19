@@ -8,10 +8,7 @@ node_js:
 before_install:
   #- if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then cmd.exe /C "msiexec /quiet /i node_modules/@gyselroth/balloon-node-fuse/assets/Dokan_x64.msi INSTALLDEVFILES=1"; fi;
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then choco install -y dokany --installargs INSTALLDEVFILES=1; fi
-  #- find /c -name fuse.h
-  #- DOKAN_INSTALL_DIR="C:\Program Files\Dokan\DokanLibrary-1.2.2" DOKAN_FUSE_INCLUDE="C:\Program Files\Dokan\DokanLibrary-1.2.2\include\fuse" npm install
-  - rm -rfv node_modules
-  - npm install
+  - DokanLibrary1="C:\\Program Files\\Dokan\\DokanLibrary-1.2.2\\" DokanLibrary1_LibraryPath_x64="C:\\Program Files\\Dokan\\DokanLibrary-1.2.2\\lib\\" npm install
   - export version=$TRAVIS_TAG
   - if [[ "${version:0:1}" == "v" ]]; then version=${version:1}; fi;
   - if [ "$version" == "" ]; then version=$TRAVIS_BUILD_NUMBER; fi;
