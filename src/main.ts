@@ -3,7 +3,7 @@ import { CoreV2Api, HttpBasicAuth } from '@gyselroth/balloon-sdk-node';
 const path = require('path');
 const fs = require('fs');
 const homeDir = require('os').homedir();
-const fuseLocal = path.join(homeDir, '.mount.balloon', 'fuse_bindings.node');
+const fuseLocal = path.join(homeDir, '.balloonfs', 'fuse_bindings.node');
 const nodeFs = require('node-fs');
 
 interface Options {
