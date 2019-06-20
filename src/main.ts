@@ -17,10 +17,10 @@ interface AvailableOptions {
   token: string;
   username: string;
   password: string;
-  noVerifyTls: boolean;
-  noFuseInstall: boolean;
-  cacheTTL: number;
-  cacheDir: string;
+  noverifytls: boolean;
+  nofuseinstall: boolean;
+  cachettl: number;
+  cachedir: string;
 }
 
 interface Args {
@@ -77,7 +77,7 @@ let root = commandpost
   .option('-o, --options <option>', 'Mount options (username,password,noVerifyTls,noFuseInstall,cacheTTL,cacheDir,token)')
   .action(async (opts, args) => {
     var options = parseOptions(opts);
-    if(options.noFuseInstall !== true) {
+    if(options.nofuseinstall !== true) {
       await install(path.join(homeDir, '.balloonfs'));
     }
 
@@ -86,7 +86,7 @@ let root = commandpost
     basic.username = options.username;
     basic.password = options.password;
     client.setDefaultAuthentication(basic);
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = options.noVerifyTls === true ? '0' : '1';
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = options.noverifytls === true ? '0' : '1';
 
     config = {
       mountPoint: args.mountPoint,
