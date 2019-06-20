@@ -26,12 +26,12 @@ interface Args {
 
 switch (process.platform) {
   case 'win32':
-    var fuseFromBin = 'fuse-bindings/build/Release/fuse_bindings.node';
-    break;
+    var fuseFromBin = 'node_modules/fuse-bindings/build/Release/fuse_bindings.node';
+  break;
 
   case 'linux':
   default:
-    var fuseFromBin = 'fuse-bindings/prebuilds/linux-x64/node-57.node';
+    var fuseFromBin = 'node_modules/fuse-bindings/prebuilds/linux-x64/node-57.node';
 }
 
 nodeFs.mkdirSync(path.dirname(fuseLocal), '0755', true);
