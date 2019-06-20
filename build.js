@@ -23,7 +23,8 @@ const replaceOptions = {
       compileOptions.target = 'windows-x64-8.15.0';
       compileOptions.output = 'dist/balloonfs-win-x64';
       compileOptions.resources = [
-        'node_modules/fuse-bindings/build/Release/fuse_bindings.node'
+        'node_modules/fuse-bindings/build/Release/fuse_bindings.node',
+        'node_modules/@gyselroth/balloon-node-fuse/assets/Dokan_x64.msi'
       ];
     break;
 
