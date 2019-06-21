@@ -78,7 +78,11 @@ let root = commandpost
   .action(async (opts, args) => {
     var options = parseOptions(opts);
     if(options.nofuseinstall !== true) {
-      await install(path.join(homeDir, '.balloonfs'));
+      install(path.join(homeDir, '.balloonfs')).then(() => {
+
+      }).catch(error => {
+        console.log(error);
+      });
     }
 
     var client = new CoreV2Api(args.server);
