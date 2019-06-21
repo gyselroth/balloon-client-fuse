@@ -26,6 +26,7 @@ addons:
     casks:
     - osxfuse
     - pkg-config
+    update: true
   apt:
     packages:
     - python
