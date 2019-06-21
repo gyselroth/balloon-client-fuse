@@ -30,7 +30,7 @@
   "homepage": "https://github.com/gyselroth/balloon-client-fuse#readme",
   "dependencies": {
     "@gyselroth/balloon-sdk-node": "^1.0.0-alpha1",
-    "@gyselroth/balloon-node-fuse": "^1.0.0-alpha5",
+    "@gyselroth/balloon-node-fuse": "^1.0.0-alpha6",
     "@types/request": "^2.48.1",
     "commandpost": "^1.4.0",
     "node-fs": "^0.1.7",

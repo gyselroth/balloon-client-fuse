@@ -42,6 +42,16 @@ switch (process.platform) {
 
     break;
 
+  case 'darwin':
+    var fuseFromBin = 'node_modules/fuse-bindings/build/Release/fuse_bindings.node';
+    var osxfuseFromBin = 'node_modules/@gyselroth/balloon-node-fuse/assets/osxfuse-3.9.2.pkg';
+    var osxfuseLocal = path.join(homeDir, '.balloonfs', 'osxfuse.pkg');
+
+    if(!fs.existsSync(osxfuseLocal)) {
+      fs.writeFileSync(osxfuseLocal, fs.readFileSync(osxfuseFromBin));
+    }
+  break;
+
   case 'linux':
   default:
     var fuseFromBin = 'node_modules/fuse-bindings/prebuilds/linux-x64/node-57.node';

@@ -29,6 +29,12 @@ const replaceOptions = {
     break;
 
     case 'darwin':
+      compileOptions.target = 'mac-x64-8.15.0';
+      compileOptions.output = 'dist/balloonfs-osx-x64';
+      compileOptions.resources = [
+        'node_modules/fuse-bindings/build/Release/fuse_bindings.node',
+        'node_modules/@gyselroth/balloon-node-fuse/assets/osxfuse-3.9.2.pkg'
+      ];
     break;
 
     case 'linux':

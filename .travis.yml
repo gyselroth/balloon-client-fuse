@@ -19,6 +19,7 @@ script:
   - npm run dist
 os:
   - linux
+  - osx
   - windows
 addons:
   apt:
