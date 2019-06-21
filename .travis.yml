@@ -25,6 +25,7 @@ addons:
   homebrew:
     packages:
     - osxfuse
+    - pkg-config
   apt:
     packages:
     - python
