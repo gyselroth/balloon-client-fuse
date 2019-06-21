@@ -9,8 +9,6 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then choco install -y dokany --installargs INSTALLDEVFILES=1; fi
   - export DokanLibrary1="C:\\Program Files\\Dokan\\DokanLibrary-1.2.2\\"
   - export DokanLibrary1_LibraryPath_x64="C:\\Program Files\\Dokan\\DokanLibrary-1.2.2\\lib\\"
-  - echo $PKG_CONFIG_PATH
-  - export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
   - npm install
   - export version=$TRAVIS_TAG
   - if [[ "${version:0:1}" == "v" ]]; then version=${version:1}; fi;
@@ -25,7 +23,7 @@ os:
   - windows
 addons:
   homebrew:
-    packages:
+    casks:
     - osxfuse
     - pkg-config
   apt:
