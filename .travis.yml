@@ -22,6 +22,9 @@ os:
   - osx
   - windows
 addons:
+  homebrew:
+    packages:
+    - osxfuse
   apt:
     packages:
     - python
