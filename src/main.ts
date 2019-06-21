@@ -2,7 +2,6 @@ import * as commandpost from 'commandpost';
 import { CoreV2Api, HttpBasicAuth } from '@gyselroth/balloon-sdk-node';
 import { install } from '@gyselroth/balloon-node-fuse';
 
-const fuse = require('fuse-bindings');
 const path = require('path');
 const fs = require('fs');
 const homeDir = require('os').homedir();
@@ -62,6 +61,7 @@ if(!fs.existsSync(fuseLocal)) {
 }
 
 import { mount } from '@gyselroth/balloon-node-fuse';
+const fuse = require('fuse-bindings');
 
 function parseOptions(opts: Options): AvailableOptions {
   var options = {} as AvailableOptions;
