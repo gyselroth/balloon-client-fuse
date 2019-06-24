@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![GitHub release](https://img.shields.io/github/release/gyselroth/balloon-client-fuse.svg)](https://github.com/gyselroth/balloon-client-fuse/releases)
 
-balloonfs :ship:ed for Linux, Windows and OS X.
+balloonfs for Linux, Windows and OS X.
 
 Usage:
 ```
@@ -21,3 +21,4 @@ mount -t balloon <server_url> <mountpoint> -o username=admin,password=admin
 | cachettl | `5` | Cache time in seconds for node response TTL. |
 | nofuseinstall | <null> | Skip fuse installation. |
 | noverifytls | <null> | Allow insecure ssl certificates. |
+| debug | <null> | Debug requests |

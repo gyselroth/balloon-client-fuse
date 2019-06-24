@@ -1,7 +1,9 @@
 import * as commandpost from 'commandpost';
-import { CoreV2Api, HttpBasicAuth } from '@gyselroth/balloon-sdk-node';
+import { CoreV2Api, HttpBasicAuth, localVarRequest } from '@gyselroth/balloon-sdk-node';
 import { install } from '@gyselroth/balloon-node-fuse';
+import * as winston from 'winston';
 
+const util = require('util');
 const path = require('path');
 const fs = require('fs');
 const homeDir = require('os').homedir();
@@ -20,6 +22,7 @@ interface AvailableOptions {
   nofuseinstall: boolean;
   cachettl: number;
   cachedir: string;
+  loglevel: string;
 }
 
 interface Args {
@@ -81,6 +84,9 @@ function parseOptions(opts: Options): AvailableOptions {
 }
 
 var config;
+const loggerFormat = winston.format.printf(({ timestamp, level, message, ...meta}) => {
+  return `${timestamp} [${level}]: ${message} ;${meta? JSON.stringify(meta) : ''}`;
+});
 
 let root = commandpost
   .create<Options, Args>(' <server> <mountPoint>')
@@ -93,6 +99,24 @@ let root = commandpost
       }).catch(error => {
         console.log(error);
       });
+    }
+
+    const logger = winston.createLogger({
+      level: options.loglevel,
+      format: winston.format.combine(winston.format.timestamp({
+          format: "YYYY-MM-DD HH:mm:ss"
+        }),winston.format.splat(),loggerFormat),
+      transports: [
+        new winston.transports.Console({ level: options.loglevel }),
+      ]
+    });
+
+    console.error = function(d) {
+      logger.debug(d, util.format.apply(null, arguments));
+    };
+
+    if(options.loglevel === 'debug') {
+      localVarRequest.debug = true;
     }
 
     var client = new CoreV2Api(args.server);
@@ -109,7 +133,7 @@ let root = commandpost
       },
     };
 
-    mount(client, config).catch(error => {
+    mount(client, config, logger).catch(error => {
       console.log(client);
     });
   });
