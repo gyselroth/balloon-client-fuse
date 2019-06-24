@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/gyselroth/balloon-client-fuse#readme",
   "dependencies": {
-    "@gyselroth/balloon-sdk-node": "^1.0.0-alpha1",
+    "@gyselroth/balloon-sdk-node": "^1.0.0-alpha2",
     "@gyselroth/balloon-node-fuse": "^1.0.0-alpha7",
     "@types/request": "^2.48.1",
     "commandpost": "^1.4.0",
