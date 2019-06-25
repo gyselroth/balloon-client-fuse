@@ -19,6 +19,6 @@ mount -t balloon <server_url> <mountpoint> -o username=admin,password=admin
 | password | `null` | balloon password. |
 | cachedir | `null` | Local directory to use as direct storage. |
 | cachettl | `5` | Cache time in seconds for node response TTL. |
-| nofuseinstall | <null> | Skip fuse installation. |
+| installfuse | <null> | Try to auto install fuse. |
 | noverifytls | <null> | Allow insecure ssl certificates. |
-| debug | <null> | Debug requests |
+| loglevel | <null> | Set a log level, one of [debug,info,error] |

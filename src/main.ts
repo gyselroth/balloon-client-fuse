@@ -19,7 +19,7 @@ interface AvailableOptions {
   username: string;
   password: string;
   noverifytls: boolean;
-  nofuseinstall: boolean;
+  installfuse: boolean;
   cachettl: number;
   cachedir: string;
   loglevel: string;
@@ -63,8 +63,36 @@ if(!fs.existsSync(fuseLocal)) {
   fs.writeFileSync(fuseLocal, fs.readFileSync(fuseFromBin));
 }
 
-import { mount } from '@gyselroth/balloon-node-fuse';
-const fuse = require('fuse-bindings');
+function verifyFuse(): boolean {
+  switch (process.platform) {
+    case 'win32':
+      var fuse = '';
+      if(!fs.existsSync(fuse)) {
+        console.log("balloonfs requires dokany, either download it from: https://github.com/dokan-dev/dokany/releases or execute balloonfs with -o installfuse to try an auto install.");
+        return false;
+      }
+
+      break;
+
+    case 'darwin':
+      var fuse = '/usr/local/lib/libosxfuse.2.dylib';
+      if(!fs.existsSync(fuse)) {
+        console.log("balloonfs requires osxfuse, either download it from: https://github.com/osxfuse/osxfuse/releases or execute balloonfs with -o installfuse to try an auto install.");
+        return false;
+      }
+    break;
+
+    case 'linux':
+    default:
+      var fuse = '/usr/lib/x86_64-linux-gnu/libfuse.so';
+      if(!fs.existsSync(fuse)) {
+        console.log("balloonfs requires fuse support, install libfuse from your distribution mirrors.");
+        return false;
+      }
+  }
+
+  return true;
+}
 
 function parseOptions(opts: Options): AvailableOptions {
   var options = {} as AvailableOptions;
@@ -84,21 +112,31 @@ function parseOptions(opts: Options): AvailableOptions {
 }
 
 var config;
+var fuse;
+var mount;
+
 const loggerFormat = winston.format.printf(({ timestamp, level, message, ...meta}) => {
   return `${timestamp} [${level}]: ${message} ;${meta? JSON.stringify(meta) : ''}`;
 });
 
 let root = commandpost
   .create<Options, Args>(' <server> <mountPoint>')
-  .option('-o, --options <option>', 'Mount options (username,password,noVerifyTls,noFuseInstall,cacheTTL,cacheDir,token)')
+  .option('-o, --options <option>', 'Mount options (username,password,noverifytls,installfuse,cachettl,cachedir,token,loglevel)')
   .action(async (opts, args) => {
     var options = parseOptions(opts);
-    if(options.nofuseinstall !== true) {
+    if(options.installfuse === true) {
       install(path.join(homeDir, '.balloonfs')).then(() => {
 
       }).catch(error => {
         console.log(error);
       });
+    }
+
+    if(verifyFuse()) {
+      mount = require('@gyselroth/balloon-node-fuse').mount;
+      fuse = require('fuse-bindings');
+    } else {
+      return;
     }
 
     const logger = winston.createLogger({
