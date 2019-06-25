@@ -189,16 +189,13 @@ let root = commandpost
     };
 
     mount(client, config, logger).catch(error => {
-      console.log(client);
+      console.log(error);
+      process.exit(1);
     });
   });
 
 commandpost.exec(root, process.argv).catch(err => {
-  if (err instanceof Error) {
-    console.error(err.stack);
-  } else {
-    console.error(err);
-  }
+  console.error(err);
   process.exit(1);
 });
 
