@@ -1,6 +1,5 @@
 import * as commandpost from 'commandpost';
 import { CoreV2Api, HttpBasicAuth, localVarRequest } from '@gyselroth/balloon-sdk-node';
-import { install } from '@gyselroth/balloon-node-fuse';
 import * as winston from 'winston';
 
 const util = require('util');
@@ -9,6 +8,7 @@ const fs = require('fs');
 const homeDir = require('os').homedir();
 const fuseLocal = path.join(homeDir, '.balloonfs', 'fuse_bindings.node');
 const nodeFs = require('node-fs');
+const exec = util.promisify(require('child_process').exec);
 
 interface Options {
   options: string[];
@@ -32,26 +32,43 @@ interface Args {
 
 nodeFs.mkdirSync(path.dirname(fuseLocal), '0755', true);
 
+function installFuse() {
+  switch (process.platform) {
+    case 'win32':
+      var dokanFromBin = 'node_modules/@gyselroth/balloon-node-fuse/assets/Dokan_x64.msi';
+      var dokanLocal = path.join(homeDir, '.balloonfs', 'Dokan_x64.msi');
+
+      if(!fs.existsSync(dokanLocal)) {
+        fs.writeFileSync(dokanLocal, fs.readFileSync(dokanFromBin));
+      }
+
+      return exec('msiexec.exe /i ' + dokanLocal + ' /quiet /qn /norestart');
+    break;
+
+    case 'darwin':
+      var osxfuseFromBin = 'node_modules/@gyselroth/balloon-node-fuse/assets/osxfuse-3.9.2.pkg';
+      var osxfuseLocal = path.join(homeDir, '.balloonfs', 'osxfuse.pkg');
+
+      if(!fs.existsSync(osxfuseLocal)) {
+        fs.writeFileSync(osxfuseLocal, fs.readFileSync(osxfuseFromBin));
+      }
+
+      return exec('installer -pkg ' + osxfuseLocal + ' -target /Applications');
+
+    default:
+    case 'linux':
+      return Promise.resolve();
+    //skip install, lets asume we have fuse support built in into the kernel
+  }
+}
+
 switch (process.platform) {
   case 'win32':
     var fuseFromBin = 'node_modules/fuse-bindings/build/Release/fuse_bindings.node';
-    var dokanFromBin = 'node_modules/@gyselroth/balloon-node-fuse/assets/Dokan_x64.msi';
-    var dokanLocal = path.join(homeDir, '.balloonfs', 'Dokan_x64.msi');
-
-    if(!fs.existsSync(dokanLocal)) {
-      fs.writeFileSync(dokanLocal, fs.readFileSync(dokanFromBin));
-    }
-
     break;
 
   case 'darwin':
     var fuseFromBin = 'node_modules/fuse-bindings/build/Release/fuse_bindings.node';
-    var osxfuseFromBin = 'node_modules/@gyselroth/balloon-node-fuse/assets/osxfuse-3.9.2.pkg';
-    var osxfuseLocal = path.join(homeDir, '.balloonfs', 'osxfuse.pkg');
-
-    if(!fs.existsSync(osxfuseLocal)) {
-      fs.writeFileSync(osxfuseLocal, fs.readFileSync(osxfuseFromBin));
-    }
   break;
 
   case 'linux':
@@ -125,7 +142,7 @@ let root = commandpost
   .action(async (opts, args) => {
     var options = parseOptions(opts);
     if(options.installfuse === true) {
-      install(path.join(homeDir, '.balloonfs')).then(() => {
+      installFuse().then(() => {
 
       }).catch(error => {
         console.log(error);
